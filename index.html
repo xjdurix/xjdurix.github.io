@@ -1,0 +1,81 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title> clicker game </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+	sjs.open();
+
+	var background = new sjs.Image("Images/backround.jfif");
+	background.setSize(sjs.getWidth(), sjs.getHeight());
+
+	var coin = new sjs.Image("Images/botcoin.png");
+	coin.setSize(250,250);
+	coin.center();
+
+	//cash
+	var cash = 0; 
+	var cash_txt = new sjs.Text("cash: 0", 21, "orange");
+
+
+	var cashperclick = 1;
+	var price0 =100;
+	var price1 = 20;
+	var multiplierbuff = 1;
+
+	coin.onClick( function(){
+		cash = cash +cashperclick*multiplierbuff;
+		cash_txt.setText("cash:"+cash);
+	});
+
+
+
+	//clicker upgrade
+
+	var upgrade0 = new sjs.Image("Images/button.png");
+	upgrade0.setSize(150,150);
+	upgrade0.onClick(function(){
+		cash_txt.setText("cash:"+cash);
+		if(cash >= price0){
+			cash = cash -price0;
+			cashperclick += 1;
+			price0 += 25; 
+
+		}
+	});
+
+	var upgrade1 = new sjs.Image("Images/upgrade.gif");
+	upgrade1.setSize(150,80); 
+	upgrade1.center();
+	upgrade1.left();
+	var isBuffed = false;
+	upgrade1.onClick(function(){
+		cash_txt.setText("cash:"+cash);
+		if(!isBuffed){
+			if(cash >= price1){
+				cash = cash -price1;
+				multiplierbuff *= 2;
+				isBuffed = true;
+			}
+			setTimeout(function(){
+				multiplierbuff /= 2;
+				isBuffed = false;
+			}, 30000)
+		}
+		
+	});
+
+
+
+
+} //end start
+
+</script>
+</head>
+<body onload="start()">
+<h1> Bot Coin Clicker </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
